@@ -1,0 +1,31 @@
+{
+  "overrides": [
+    {
+      "files": ["*.mts", "*.cts", "*.ts"],
+      "options": {
+        "parser": "typescript"
+      }
+    }
+  ],
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "cursorOffset": -1,
+  "endOfLine": "auto",
+  "filepath": "",
+  "htmlWhitespaceSensitivity": "css",
+  "insertPragma": false,
+  "jsxSingleQuote": false,
+  "parser": "typescript",
+  "pluginSearchDirs": [],
+  "plugins": [],
+  "printWidth": 120,
+  "proseWrap": "preserve",
+  "quoteProps": "as-needed",
+  "rangeStart": 0,
+  "requirePragma": false,
+  "semi": false,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "none",
+  "useTabs": false
+}
