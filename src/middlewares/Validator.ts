@@ -17,7 +17,7 @@ export class Validator {
         }
 
         httpContext.set('status', Code.INPUT_DATA_INVALID)
-        return response(res,{},errors);
+        return response(res,{});
       });
     };
   }
@@ -33,7 +33,7 @@ export class Validator {
         }
 
         httpContext.set('status', Code.INPUT_DATA_INVALID)
-        return response(res,{},errors);
+        return response(res,{});
       });
     };
   }
@@ -48,7 +48,7 @@ export class Validator {
         }
 
         httpContext.set('status', Code.INPUT_DATA_INVALID)
-        return response(res,{},errors);
+        return response(res,{});
       });
     };
   }

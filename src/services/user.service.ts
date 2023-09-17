@@ -10,8 +10,8 @@ class UserService {
   }
 
 
-  find = ( data: any) => {
-      return UserModel.findOne({ email: data.email });
+  find = ( email: string) => {
+      return UserModel.findOne({ email });
   }
 
   findByEmail = async (email: string) => {
