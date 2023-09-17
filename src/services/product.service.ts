@@ -1,21 +1,27 @@
 import { Schema } from "mongoose";
+import { ProductModel, IProduct } from "../models/product.model"
 
 class ProductService {
+    private productModel = ProductModel
 
-    findAll = async ( reqBody:any) => {
-        let query = {}
-        let pagination:any = {}
-        let sort:any = {}
-        if (reqBody.page) pagination.page = reqBody.page
-        if (reqBody.limit) pagination.limit = reqBody.limit
-        if (reqBody.order) sort[reqBody.order] = reqBody.sort || -1
-        else sort = { createdAt: -1 }
+    async findALl({offset,limit}: { offset: number, limit: number } = {offset: 0, limit: 10}) {
+        let totalDocs = await this.productModel.countDocuments()
+        let products: IProduct[] = await this.productModel.find({})
+          .sort({createdAt: -1})
+          .skip(offset)
+          .limit(limit)
 
-        return
+        return {
+            products,
+            offset,
+            limit,
+            totalDocs
+        }
     }
 
-    findOne = async ( _id:Schema.Types.ObjectId) => {
-        return
+
+    findById = async ( _id:Schema.Types.ObjectId|string) => {
+        return this.productModel.findById(_id)
     }
 }
 

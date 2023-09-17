@@ -3,7 +3,7 @@ import { IMongooseDocs } from "../interfaces/mongoose.interface"
 
 const Schema = mongoose.Schema
 
-const bookSchema = new Schema<IBook>(
+const productSchema = new Schema<IProduct>(
   {
     price: { type: Number },
     quantity: { type: Number },
@@ -15,7 +15,7 @@ const bookSchema = new Schema<IBook>(
   }
 )
 
-export interface IBook extends IMongooseDocs<IBook> {
+export interface IProduct extends IMongooseDocs<IProduct> {
   _id: ObjectId,
   author: string,
   genre: string,
@@ -23,4 +23,4 @@ export interface IBook extends IMongooseDocs<IBook> {
   quantity: number
 }
 
-export default mongoose.model<IBook>("Book", bookSchema)
+export const ProductModel = mongoose.model<IProduct>("Product", productSchema)

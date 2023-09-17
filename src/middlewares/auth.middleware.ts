@@ -27,6 +27,7 @@ class Auth {
     req.user = user;
     next();
   }
+
   checkLoginStatus = async (req: any, res: Response, next: NextFunction) => {
     let user = await Auth.#findAccessToken(req);
     if (!user) {
