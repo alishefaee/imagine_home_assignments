@@ -1,67 +1,10 @@
 import { response, setCodeResponse } from "../utils/functions";
 import { Code, OrderStatus, PaymentStatus, ProductType } from '../utils/consts.utils'
-import SubscriptionService from '../services/subscription.service'
-import * as ZarinPalCheckout from '../helpers/zarinpal.helper'
-import OrderService from '../services/order.service'
-import jwt from 'jsonwebtoken'
 import { logger } from '../utils/logger.util'
-import wallpaperService from '../services/wallpaper.service'
-import Email from '../utils/email.util'
 import {Request, Response,NextFunction} from "express";
 import httpContext from "express-http-context";
 
 class Order {
-    requestSubscription = async (req:Request, res:Response, next:NextFunction) => {
-        let {productId} = req.body
-        let subscription = await SubscriptionService.findOne()
-        if (!subscription) {
-            setCodeResponse(Code.DATA_NOT_FOUND)
-            return response(res, {}, {})
-        }
-
-        let order = await OrderService.create(req.user._id, subscription, ProductType.SUBSCRIPTION)
-
-        if (order.finalPrice < 500) {
-            setCodeResponse(Code.INPUT_DATA_INVALID)
-            response(res, {}, { message: 'قیمت محصول باید بیشتر از ۵۰۰ تومان باشد' })
-        }
-
-        const zarinpal = ZarinPalCheckout.create(
-          process.env.MERCHANT_ID!
-        )
-
-        let jwtData = jwt.sign({ email: req.user.email, orderId: order._id }, process.env.SECRET!, {
-            expiresIn: '14d'
-        })
-        /**
-         * PaymentRequest [module]
-         * @return {String} URL [Payement Authority]
-         */
-        zarinpal
-            .PaymentRequest({
-                Amount: subscription.price, // In Tomans
-                CallbackURL: process.env.HOST + '/v3/orders/verify?token=' + jwtData,
-                Description: subscription.title,
-                Email: req.user.email
-            })
-            .then(async (response:any) => {
-
-                if (response.status === 100) {
-                    // res.status('302').redirect(response.url)
-                    await OrderService.updatePaymentStatus(order._id, {
-                        paymentStatus: PaymentStatus.PENDING,
-                        authority: response.authority
-                    })
-                    response(res, { url: response.url })
-                } else {
-                    setCodeResponse(Code.ZARIN_REQ_INVALID)
-                    await OrderService.updatePaymentStatus(order._id, {
-                        refId:JSON.stringify(response)
-                    })
-                    next(new Error(JSON.stringify(response)))
-                }
-            })
-    }
 
     requestWallpaper = async (req:Request, res:Response, next:NextFunction) => {
         let wallpaper = await wallpaperService.findOne(req.body.productId)
