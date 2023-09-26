@@ -10,9 +10,6 @@ class CartService {
     return cart
   }
 
-  delete = async (productId: string) => {
-
-  }
 }
 
 export default new CartService()

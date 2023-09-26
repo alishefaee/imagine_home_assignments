@@ -8,7 +8,8 @@ const productSchema = new Schema<IProduct>(
     price: { type: Number },
     quantity: { type: Number },
     author: { type: String },
-    genre: { type: String }
+    genre: { type: String },
+    title: { type: String }
   },
   {
     timestamps: {}
@@ -19,6 +20,7 @@ export interface IProduct extends IMongooseDocs<IProduct> {
   _id: ObjectId,
   author: string,
   genre: string,
+  title: string,
   price: number,
   quantity: number
 }
