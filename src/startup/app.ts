@@ -8,7 +8,7 @@ import path from "path";
 import { Code } from "../utils/consts.utils";
 import { response, setCodeResponse } from "../utils/functions";
 import mongoose from "mongoose"
-
+import {initDB} from './init'
 const app = express();
 
 console.log(process.env.MONGODB_URL)
@@ -24,6 +24,10 @@ mongoose
     logger.error('DB is not connected: ')
     throw new Error(err)
   })
+
+initDB().then(()=>{
+  console.log('dummy books inserted to DB')
+})
 
 app.set("trust proxy", 1);
 app.use(express.json());

@@ -30,6 +30,10 @@ class ProductService {
     findById = async ( _id:Schema.Types.ObjectId|string) => {
         return this.productModel.findById(_id)
     }
+
+    create = (data:any) => {
+        return this.productModel.create(data)
+    }
 }
 
 export default new ProductService()
