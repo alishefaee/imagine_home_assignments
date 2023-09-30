@@ -1,18 +1,20 @@
-import mongoose, { ObjectId } from "mongoose";
+import mongoose, { ObjectId } from "mongoose"
+import { IMongooseDocs } from "../interfaces/mongoose.interface"
 
 const Schema = mongoose.Schema
 
 const userLoginSchema = new Schema<IUserLogin>(
-    {
-        userId: { type: Schema.Types.ObjectId, ref: 'User' },
-        token: { type: String, required: true }
-    },
-    {
-        timestamps: {}
-    }
+  {
+    userId: { type: Schema.Types.ObjectId, ref: "User" },
+    token: { type: String, required: true }
+  },
+  {
+    timestamps: {},
+    versionKey: false
+  }
 )
 
-export interface IUserLogin {
+export interface IUserLogin extends IMongooseDocs<IUserLogin> {
   _id: ObjectId,
   userId: ObjectId,
   token: string,
@@ -20,4 +22,4 @@ export interface IUserLogin {
   updatedAt: Date
 }
 
-export default mongoose.model<IUserLogin>('UserLogin', userLoginSchema)
+export default mongoose.model<IUserLogin>("UserLogin", userLoginSchema)

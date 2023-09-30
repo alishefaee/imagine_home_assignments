@@ -1,13 +1,26 @@
 import { Request, Response } from "express"
 import CartService from "../services/cart.service"
-import { Schema } from "mongoose"
+import { Types, ObjectId } from "mongoose"
 import { response } from "../utils/functions"
 
 class Cart {
+
+  async findAll(req: Request, res:Response) {
+    const carts = await CartService.findAll()
+    return response(res, carts)
+  }
+
+  async findCurrent(req: Request, res:Response) {
+    const cart = await CartService.findCurrentCart()
+    return response(res,cart)
+  }
+
+
   async addProduct(req: Request, res: Response) {
     const {productId} = req.params
     const cart = await CartService.findCurrentCart()
-    cart.products.push(new Schema.Types.ObjectId(productId))
+    let objId = new Types.ObjectId(productId)
+    cart.products.push(objId)
     cart.save()
     return response(res)
   }

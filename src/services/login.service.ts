@@ -4,15 +4,14 @@ import { Schema } from "mongoose"
 
 class LoginService {
   create = async (user: any) => {
-
-    let token = generateToken()
-    let login = {
+    const token = generateToken()
+    const data = {
       token: generateHash(token),
       userId: user._id
     }
-    login = await Login.create(login)
+    const login = await Login.create(data)
 
-    return { ...login, token }
+    return { ...login._doc, token }
   }
 
   update = async (_id: string | Schema.Types.ObjectId, oldAToken: string) => {
@@ -33,11 +32,8 @@ class LoginService {
     return
   }
 
-  findByAccessToken = (aToken: string) => {
-    return Login.findOne({
-      $or: [{ aToken }, { oldAToken: aToken }],
-      valid: true
-    })
+  findByAccessToken = (token: string) => {
+    return Login.findOne({ token })
   }
 
 }

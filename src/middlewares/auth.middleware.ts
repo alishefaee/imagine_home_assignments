@@ -44,7 +44,9 @@ class Auth {
       setCodeResponse(Code.ACCESS_TOKEN_NOT_SET);
       return null;
     }
+    console.log('token', token)
     let aHash = generateHash(token);
+    console.log('ahash', aHash)
     let login = await Login.findByAccessToken(aHash);
     if (!login) {
       setCodeResponse(Code.ACCESS_TOKEN_INVALID);

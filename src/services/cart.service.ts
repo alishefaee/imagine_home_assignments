@@ -10,6 +10,10 @@ class CartService {
     return cart
   }
 
+  findAll = () => {
+    return CartModel.find({})
+  }
+
 }
 
 export default new CartService()

@@ -1,4 +1,4 @@
-import mongoose, { ObjectId } from "mongoose"
+import mongoose, { ObjectId, Types } from "mongoose"
 import { IMongooseDocs } from "../interfaces/mongoose.interface"
 import { OrderStatusEnum } from "../enums/order-status.enum"
 import { IProduct } from "./product.model"
@@ -20,7 +20,7 @@ export interface ICart extends IMongooseDocs<ICart> {
   _id: ObjectId,
   status: OrderStatusEnum,
   totalPrice: number,
-  products: ObjectId[]
+  products: Types.ObjectId[]
 }
 
 export const CartModel = mongoose.model<ICart>("Cart", cartSchema)
